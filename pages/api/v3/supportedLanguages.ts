@@ -5,7 +5,8 @@ import { translationServiceClient as translate, v3Parent as parent } from '../..
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
-  const target = req.query.target as string|undefined
+  let target = req.query.target as string|undefined
+  if(target === undefined) target = 'en';
   
   const results = await translate.getSupportedLanguages({ parent, displayLanguageCode: target, model: null })
 
