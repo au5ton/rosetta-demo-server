@@ -7,5 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
   const target = req.query.target as string|undefined
   
-  res.status(200).json(await translate.getSupportedLanguages({ parent, displayLanguageCode: target, model: null }))
+  const results = await translate.getSupportedLanguages({ parent, displayLanguageCode: target, model: null })
+
+  res.status(200).json(results[0].languages?.map(({displayName, languageCode}) => ({ displayName, languageCode })))
 }

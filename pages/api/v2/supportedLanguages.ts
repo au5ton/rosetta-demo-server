@@ -6,5 +6,8 @@ import { translate } from '../../../lib/translate'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
   const target = req.query.target as string|undefined
-  res.status(200).json(await translate.getLanguages(target))
+
+  const results = await translate.getLanguages(target);
+
+  res.status(200).json(results[0].map(({ code, name }) => ({ displayName: name, languageCode: code })))
 }
