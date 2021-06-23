@@ -11,11 +11,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // get words to be translated
   const data: string[] = Array.isArray(req.body) && req.body.length > 0 && req.body.every(e => typeof e === 'string') ? req.body : [];
 
-  const results = await translate.translate(data, {
-    format: 'html',
-    from: sourceLanguage,
-    to: targetLanguage
-  });
-
-  res.status(200).json(results[0])
+  if(data.length === 0 || targetLanguage === undefined || sourceLanguage === undefined) {
+    res.status(200).json([]);
+  }
+  else {
+    const results = await translate.translate(data, {
+      format: 'html',
+      from: sourceLanguage,
+      to: targetLanguage
+    });
+  
+    res.status(200).json(results[0])
+  }
 }
