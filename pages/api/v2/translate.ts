@@ -8,6 +8,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // other params
   const targetLanguage = req.query.to as string|undefined;
   const sourceLanguage = req.query.from as string|undefined;
+  let format = req.query.format as string|undefined;
+  if(format === undefined) format = 'text';
   // get words to be translated
   const data: string[] = Array.isArray(req.body) && req.body.length > 0 && req.body.every(e => typeof e === 'string') ? req.body : [];
 
@@ -16,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
   else {
     const results = await translate.translate(data, {
-      format: 'html',
+      format: format,
       from: sourceLanguage,
       to: targetLanguage
     });
