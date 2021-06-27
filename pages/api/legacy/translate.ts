@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     for(let segment of data) {
       const res = await ghettoTranslate(segment, { from: sourceLanguage, to: targetLanguage });
       result.push(res.text);
-      await snooze(1000);
+      //await snooze(1000);
     }
 
     res.status(200).json(result)
