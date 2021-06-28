@@ -34,7 +34,7 @@ export default function Home() {
           </ul>
           <li><code>/api/msft/**</code></li>
           <ul>
-            <li>Uses <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/">Microsoft Translator</a> with Firebase Firestore caching.</li>
+            <li>Uses <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/">Microsoft Translator API</a> with Firebase Firestore caching.</li>
           </ul>
         </ul>
         <h2>Caching</h2>
