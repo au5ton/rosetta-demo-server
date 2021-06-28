@@ -1,10 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { cors } from '../../../lib/cors'
-import { snooze } from '@au5ton/snooze'
-
 // Legacy wrapper for free usage, reliability will vary
 import { default as ghettoTranslate } from '@vitalets/google-translate-api'
+import { tryFirestoreCache } from '../../../lib/firestoreCache'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
@@ -18,14 +17,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json([]);
   }
   else {
-    const result: string[] = [];
+    // Complete all translations in parallel and check against the cache
+    const results = await Promise.all(data.map(e => tryFirestoreCache({
+      text: e,
+      from: sourceLanguage,
+      to: targetLanguage,
+      format: 'text',
+    }, async ({ text, from, to }) => (
+      (await ghettoTranslate(text, { from, to, })).text
+    ))));
 
-    for(let segment of data) {
-      const res = await ghettoTranslate(segment, { from: sourceLanguage, to: targetLanguage });
-      result.push(res.text);
-      //await snooze(1000);
-    }
+    res.setHeader('X-Translation-Cache-Hit-Count', results.filter(e => e.isHit).length);
+    res.setHeader('X-Translation-Cache-Miss-Count', results.filter(e => ! e.isHit).length);
 
-    res.status(200).json(result)
+    res.status(200).json(results.map(e => e.data));
   }
 }

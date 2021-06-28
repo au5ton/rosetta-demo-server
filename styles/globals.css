@@ -7,8 +7,15 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #0070f3;
   text-decoration: none;
+}
+
+code {
+  color: crimson;
+  background-color: #eee;
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
 }
 
 * {
