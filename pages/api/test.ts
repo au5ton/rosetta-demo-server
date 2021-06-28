@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { cors } from '../../../lib/cors'
-import { SupportedLanguage } from '../../../lib/models'
-import { decrypt, encrypt } from '../../../lib/encryption'
+import { cors } from '../../lib/cors'
+import { SupportedLanguage } from '../../lib/models'
+import { decrypt, encrypt } from '../../lib/encryption'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);

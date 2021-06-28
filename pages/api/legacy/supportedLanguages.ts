@@ -6,14 +6,15 @@ import { SupportedLanguage } from '../../../lib/models';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
 
-  const target = req.query.target as string | undefined
+  let target = req.query.target as string|undefined
+  if(target === undefined) target = 'en';
 
   const response = await fetch(`https://translate.googleapis.com/translate_a/l?client=te&alpha=true&hl=${target}&cb=callback`, {
     "credentials": "omit",
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
       "Accept": "*/*",
-      "Accept-Language": "en-US,en;q=0.5",
+      "Accept-Language": target,
       "Alt-Used": "translate.googleapis.com",
       "Pragma": "no-cache",
       "Cache-Control": "no-cache"
