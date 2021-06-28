@@ -20,11 +20,11 @@ export interface CacheResult<T> {
  * @param args 
  * @param fetcher 
  */
-export async function tryFirestoreCache(args: TranslatorArguments, fetcher: (args: TranslatorArguments) => Promise<string> ): Promise<CacheResult<string>> {
+export async function tryFirestoreCache(args: TranslatorArguments, fetcher: (args: TranslatorArguments) => Promise<string>, collectionName: string = 'translation_cache'): Promise<CacheResult<string>> {
   const { text, from, to } = args;
 
   // create a document reference for this source text
-  const docRef = db.collection('translation_cache').doc(computeSHA512Hash(`${from}${text}`))
+  const docRef = db.collection(collectionName).doc(computeSHA512Hash(`${from}${text}`))
   const docSnap = await docRef.get()
   // attempt to hit cache
   if(docSnap.exists) {

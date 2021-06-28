@@ -32,6 +32,10 @@ export default function Home() {
           <ul>
             <li>Uses <a href="https://cloud.google.com/translate/docs/reference/libraries/v3/overview-v3">Google Cloud Translation API (Advanced)</a> with Firebase Firestore caching.</li>
           </ul>
+          <li><code>/api/msft/**</code></li>
+          <ul>
+            <li>Uses <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/">Microsoft Translator</a> with Firebase Firestore caching.</li>
+          </ul>
         </ul>
         <h2>Caching</h2>
         <p>Check the <code>X-Translation-Cache-Hit-Count</code> and <code>X-Translation-Cache-Miss-Count</code> to see how many strings were cached and not cached respectively.</p>

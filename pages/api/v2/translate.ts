@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       format,
     }, async ({ text, from, to, format }) => (
       (await translate.translate(text, { to, from, format }))[0]
-    ))));
+    ), 'v2_cache')));
 
     res.setHeader('X-Translation-Cache-Hit-Count', results.filter(e => e.isHit).length);
     res.setHeader('X-Translation-Cache-Miss-Count', results.filter(e => ! e.isHit).length);

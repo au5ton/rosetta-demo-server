@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       format: 'text',
     }, async ({ text, from, to }) => (
       (await ghettoTranslate(text, { from, to, })).text
-    ))));
+    ), 'legacy_cache')));
 
     res.setHeader('X-Translation-Cache-Hit-Count', results.filter(e => e.isHit).length);
     res.setHeader('X-Translation-Cache-Miss-Count', results.filter(e => ! e.isHit).length);

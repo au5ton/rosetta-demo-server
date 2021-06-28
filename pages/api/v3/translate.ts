@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return temp[0].translations[0].translatedText ?? ''
       }
       return '';
-    })));
+    }, 'v3_cache')));
 
     res.setHeader('X-Translation-Cache-Hit-Count', results.filter(e => e.isHit).length);
     res.setHeader('X-Translation-Cache-Miss-Count', results.filter(e => ! e.isHit).length);
