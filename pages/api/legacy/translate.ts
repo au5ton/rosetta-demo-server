@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { cors } from '../../../lib/cors'
 // Legacy wrapper for free usage, reliability will vary
 import { default as ghettoTranslate } from '@vitalets/google-translate-api'
-import { tryFirestoreCache } from '../../../lib/firestoreCache'
+import { recordHitMiss, tryFirestoreCache } from '../../../lib/firestoreCache'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   cors(res);
@@ -27,8 +27,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       (await ghettoTranslate(text, { from, to, })).text
     ), 'legacy_cache')));
 
-    res.setHeader('X-Translation-Cache-Hit-Count', results.filter(e => e.isHit).length);
-    res.setHeader('X-Translation-Cache-Miss-Count', results.filter(e => ! e.isHit).length);
+    const numHit = results.filter(e => e.isHit).length;
+    const numMiss = results.filter(e => ! e.isHit).length
+
+    res.setHeader('X-Translation-Cache-Hit-Count', numHit);
+    res.setHeader('X-Translation-Cache-Miss-Count', numMiss);
+
+    await recordHitMiss({
+      hit: numHit,
+      miss: numMiss,
+      cacheCollectionName: 'legacy_cache',
+      time: new Date()
+    });
 
     res.status(200).json(results.map(e => e.data));
   }

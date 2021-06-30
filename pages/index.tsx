@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -39,6 +40,8 @@ export default function Home() {
         </ul>
         <h2>Caching</h2>
         <p>Check the <code>X-Translation-Cache-Hit-Count</code> and <code>X-Translation-Cache-Miss-Count</code> to see how many strings were cached and not cached respectively.</p>
+        <h2>Inspect Cache Ratio</h2>
+        <p>You can inspect the cache ratio <Link href="/cache"><a>here</a></Link></p>
       </main>
 
       <footer className={styles.footer}>

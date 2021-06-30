@@ -1,5 +1,6 @@
 import { db } from './firebaseHelper'
 import { computeSHA512Hash, encrypt, decrypt } from './encryption'
+import { CacheTimeSeriesEntry } from './firebaseCommon'
 
 export interface TranslatorArguments {
   text: string;
@@ -11,6 +12,10 @@ export interface TranslatorArguments {
 export interface CacheResult<T> {
   isHit: boolean;
   data: T
+}
+
+export async function recordHitMiss(entry: CacheTimeSeriesEntry) {
+  return await db.collection('cache_series').add(entry);
 }
 
 /**
