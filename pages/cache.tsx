@@ -46,6 +46,8 @@ export default function Example() {
   const hitMissRatio = totalHits / totalMiss
   const missHitRatio = totalMiss / totalHits
 
+  // broke
+
   return (
   <>
     <h1>Cache Hit/Miss time series</h1>
