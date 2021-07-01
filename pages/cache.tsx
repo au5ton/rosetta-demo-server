@@ -27,9 +27,9 @@ export default function Example() {
       missCharacters,
       cacheCollectionName,
       time: time instanceof Date ?
-        time.valueOf()
+        time.toLocaleString()
         :
-        new Timestamp(time.seconds, time.nanoseconds).toDate()
+        new Timestamp(time.seconds, time.nanoseconds).toDate().toLocaleString()
     })); 
   //console.log(transformed)
 
