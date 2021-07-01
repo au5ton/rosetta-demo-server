@@ -34,13 +34,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const numHit = results.filter(e => e.isHit).length;
     const numMiss = results.filter(e => ! e.isHit).length
+    const numCharHit = results.filter(e => e.isHit).map(e => e.data.length).reduce((previous, current) => previous + current, 0);
+    const numCharMiss = results.filter(e => ! e.isHit).map(e => e.data.length).reduce((previous, current) => previous + current, 0);
 
     res.setHeader('X-Translation-Cache-Hit-Count', numHit);
     res.setHeader('X-Translation-Cache-Miss-Count', numMiss);
+    res.setHeader('X-Translation-Cache-Characters-Hit', numCharHit);
+    res.setHeader('X-Translation-Cache-Characters-Miss', numCharMiss);
 
     await recordHitMiss({
       hit: numHit,
       miss: numMiss,
+      hitCharacters: numCharHit,
+      missCharacters: numCharMiss,
       cacheCollectionName: 'msft_cache',
       time: new Date()
     });

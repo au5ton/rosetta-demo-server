@@ -20,9 +20,11 @@ export default function Example() {
   const { status, data } = useFirestoreCollectionData<CacheTimeSeriesEntry>(query)
   const transformed = status !== 'success' ? [] : data
     .filter(e => filter === '*' ? true : e.cacheCollectionName === filter)
-    .map(({ hit, miss, time, cacheCollectionName }) => ({
+    .map(({ hit, miss, hitCharacters, missCharacters, time, cacheCollectionName }) => ({
       hit,
       miss,
+      hitCharacters,
+      missCharacters,
       cacheCollectionName,
       time: time instanceof Date ?
         time.valueOf()
@@ -38,13 +40,17 @@ export default function Example() {
     await fetch(`/api/clearCache?collection=${filter}`)
   }
 
-  const totalHits = transformed.map(e => e.hit).reduce((prev, curr) => prev + curr, 0);
-  
+  const totalHit = transformed.map(e => e.hit).reduce((prev, curr) => prev + curr, 0);
   const totalMiss = transformed.map(e => e.miss).reduce((prev, curr) => prev + curr, 0);
-  
-  const totalRequest = totalHits + totalMiss
-  const hitMissRatio = totalHits / totalMiss
-  const missHitRatio = totalMiss / totalHits
+  const totalRequest = totalHit + totalMiss;
+  const percHit = Math.round((totalHit / totalRequest) * 100 * 10e1) / 100;
+  const percMiss = Math.round((totalMiss / totalRequest) * 100 * 10e1) / 100;
+
+  const totalHitCharacters = transformed.map(e => e.hitCharacters).reduce((prev, curr) => prev + curr, 0);
+  const totalMissCharacters = transformed.map(e => e.missCharacters).reduce((prev, curr) => prev + curr, 0);
+  const totalCharacters = totalHitCharacters + totalMissCharacters;
+  const percCharHit = Math.round((totalHitCharacters / totalCharacters) * 100 * 10e1) / 100;
+  const percCharMiss = Math.round((totalMissCharacters / totalCharacters) * 100 * 10e1) / 100;
 
   // broke
 
@@ -63,11 +69,31 @@ export default function Example() {
     <button onClick={handleClickSeries}>Clear series</button>
     <button onClick={handleClickCache}>Clear cache for current filter</button>
     <ul>
-      <li>total hits: {totalHits}</li>
-      <li>total misses: {totalMiss}</li>
-      <li>total translations: {totalRequest}</li>
-      <li>hit/miss ratio: {hitMissRatio}</li>
-      <li>miss/hit ratio: {missHitRatio}</li>
+      <li><strong>By element:</strong></li>
+      <ul>
+        <li>total nodes hit: {totalHit}</li>
+        <li>total nodes missed: {totalMiss}</li>
+        <li>total nodes translated: {totalRequest}</li>
+        <li>% of nodes hit: {percHit}</li>
+        <li>% of nodes missed: {percMiss}</li>
+        <li>
+          <strong>Meaning</strong>
+          <p>{totalRequest} <u>elements</u> were translated. Of that, {totalHit} ({percHit}%) <strong>had</strong> already been translated before (free to translate). {totalMiss} ({percMiss}%) <strong>had not</strong> been translated before (paid to translate).</p>
+        </li>
+      </ul>      
+      <hr style={{ maxWidth: 60, marginLeft: 0 }} />
+      <li><strong>By character:</strong></li>
+      <ul>
+        <li>total characters in hits: {totalHitCharacters}</li>
+        <li>total characters in misses: {totalMissCharacters}</li>
+        <li>total characters translated: {totalCharacters}</li>
+        <li>% of characters hit: {percCharHit}</li>
+        <li>% of characters missed: {percCharMiss}</li>
+        <li>
+        <strong>Meaning</strong>
+          <p>{totalCharacters} <u>characters</u> were translated. Of that, {totalHitCharacters} ({percCharHit}%) <strong>had</strong> already been translated before (free to translate). {totalMissCharacters} ({percCharMiss}%) <strong>had not</strong> been translated before (paid to translate).</p>
+        </li>
+      </ul>
     </ul>
     <AreaChart
       width={900}
