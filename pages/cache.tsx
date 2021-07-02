@@ -37,7 +37,7 @@ export default function Example() {
         :
         new Timestamp(time.seconds, time.nanoseconds).toDate().toLocaleString()
     })); 
-  //console.log(transformed)
+  console.log(transformed)
 
   const handleClickSeries = async () => {
     await fetch('/api/clearTimeSeries')
