@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import { useFirestore, useFirestoreCollectionData, useFirestoreDocData } from 'reactfire'
 import { CacheTimeSeriesEntry } from '../lib/firebaseCommon';
 import { Timestamp } from '../lib/firebaseFront'
+
+const Green = (props: { children: React.ReactNode }) => <span style={{ color: '#318551', fontWeight: 'bold' }}>{props.children}</span>
+const Purple = (props: { children: React.ReactNode }) => <span style={{ color: '#504d7e', fontWeight: 'bold' }}>{props.children}</span>
 
 export default function Example() {
   const filter_options = [
@@ -78,7 +81,9 @@ export default function Example() {
         <li>% of nodes missed: {percMiss}</li>
         <li>
           <strong>Meaning</strong>
-          <p>{totalRequest.toLocaleString()} <u>elements</u> were translated. Of that, {totalHit.toLocaleString()} ({percHit}%) <strong>had</strong> already been translated before (free to translate). {totalMiss.toLocaleString()} ({percMiss}%) <strong>had not</strong> been translated before (paid to translate).</p>
+          <p>{totalRequest.toLocaleString()} <u>elements</u> were translated. 
+          Of that, <Green>{totalHit.toLocaleString()} ({percHit}%)</Green> <strong>had</strong> already been translated before (free to translate).
+          <Purple> {totalMiss.toLocaleString()} ({percMiss}%)</Purple> <strong>had not</strong> been translated before (paid to translate).</p>
         </li>
       </ul>      
       <hr style={{ maxWidth: 60, marginLeft: 0 }} />
@@ -91,7 +96,9 @@ export default function Example() {
         <li>% of characters missed: {percCharMiss}</li>
         <li>
         <strong>Meaning</strong>
-          <p>{totalCharacters.toLocaleString()} <u>characters</u> were translated. Of that, {totalHitCharacters.toLocaleString()} ({percCharHit}%) <strong>had</strong> already been translated before (free to translate). {totalMissCharacters.toLocaleString()} ({percCharMiss}%) <strong>had not</strong> been translated before (paid to translate).</p>
+          <p>{totalCharacters.toLocaleString()} <u>characters</u> were translated. 
+          Of that, <Green>{totalHitCharacters.toLocaleString()} ({percCharHit}%)</Green> <strong>had</strong> already been translated before (free to translate). 
+          <Purple> {totalMissCharacters.toLocaleString()} ({percCharMiss}%)</Purple> <strong>had not</strong> been translated before (paid to translate).</p>
         </li>
       </ul>
     </ul>
