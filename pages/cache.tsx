@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { useFirestore, useFirestoreCollectionData, useFirestoreDocData } from 'reactfire'
+import { useWindowSize } from 'react-use'
 import { CacheTimeSeriesEntry } from '../lib/firebaseCommon';
 import { Timestamp } from '../lib/firebaseFront'
 
@@ -8,6 +9,8 @@ const Green = (props: { children: React.ReactNode }) => <span style={{ color: '#
 const Purple = (props: { children: React.ReactNode }) => <span style={{ color: '#504d7e', fontWeight: 'bold' }}>{props.children}</span>
 
 export default function Example() {
+  const { width: viewportWidth } = useWindowSize(900);
+  const transformedViewportWidth = viewportWidth < 1000 ? 900 : viewportWidth - 100; 
   const filter_options = [
     '*',
     'v2_cache',
@@ -103,7 +106,7 @@ export default function Example() {
       </ul>
     </ul>
     <AreaChart
-      width={900}
+      width={transformedViewportWidth}
       height={600}
       data={transformed}
       margin={{
@@ -115,10 +118,11 @@ export default function Example() {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="time" label="Time" height={60} />
-      <YAxis label="Requests" width={110} />
+      <YAxis label="Requests" width={130} />
       <Tooltip />
-      <Area type="monotone" dataKey="hit" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-      <Area type="monotone" dataKey="miss" stackId="1" stroke="#8884d8" fill="#8884d8" />
+      <Legend verticalAlign="top" height={36}/>
+      <Area type="monotone" dataKey="hitCharacters" name="Hit characters" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+      <Area type="monotone" dataKey="missCharacters" name="Missed characters" stackId="1" stroke="#8884d8" fill="#8884d8" />
     </AreaChart>
   </>
   );
