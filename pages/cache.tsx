@@ -121,8 +121,8 @@ export default function Example() {
       <YAxis label="Characters" width={130} />
       <Tooltip />
       <Legend verticalAlign="top" height={36}/>
-      <Area type="monotone" dataKey="hitCharacters" name="Hit characters" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-      <Area type="monotone" dataKey="missCharacters" name="Missed characters" stackId="1" stroke="#8884d8" fill="#8884d8" />
+      <Area type="linear" dataKey="hitCharacters" name="Hit characters" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+      <Area type="linear" dataKey="missCharacters" name="Missed characters" stackId="1" stroke="#8884d8" fill="#8884d8" />
     </AreaChart>
   </>
   );
