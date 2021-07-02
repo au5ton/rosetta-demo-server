@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import { useFirestore, useFirestoreCollectionData, useFirestoreDocData } from 'reactfire'
-import { useWindowSize } from 'react-use'
+//import { useWindowSize } from 'react-use'
 import { CacheTimeSeriesEntry } from '../lib/firebaseCommon';
 import { Timestamp } from '../lib/firebaseFront'
 
@@ -9,8 +9,8 @@ const Green = (props: { children: React.ReactNode }) => <span style={{ color: '#
 const Purple = (props: { children: React.ReactNode }) => <span style={{ color: '#504d7e', fontWeight: 'bold' }}>{props.children}</span>
 
 export default function Example() {
-  const { width: viewportWidth } = useWindowSize(900);
-  const transformedViewportWidth = viewportWidth < 1000 ? 900 : viewportWidth - 100; 
+  // const { width: viewportWidth } = useWindowSize(900);
+  // const transformedViewportWidth = viewportWidth < 1000 ? 900 : viewportWidth - 100; 
   const filter_options = [
     '*',
     'v2_cache',
@@ -106,7 +106,7 @@ export default function Example() {
       </ul>
     </ul>
     <AreaChart
-      width={transformedViewportWidth}
+      width={1100}
       height={600}
       data={transformed}
       margin={{
