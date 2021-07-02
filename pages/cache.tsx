@@ -118,7 +118,7 @@ export default function Example() {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="time" label="Time" height={60} />
-      <YAxis label="Requests" width={130} />
+      <YAxis label="Characters" width={130} />
       <Tooltip />
       <Legend verticalAlign="top" height={36}/>
       <Area type="monotone" dataKey="hitCharacters" name="Hit characters" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
